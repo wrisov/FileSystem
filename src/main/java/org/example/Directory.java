@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 public class Directory extends Entry {
     private ArrayList<Entry> contents;
 
@@ -48,5 +50,23 @@ public class Directory extends Entry {
 
     protected ArrayList<Entry> getContents() {
         return contents;
+    }
+
+    // Method to search by path
+    public Entry searchByPath(String path) {
+        String[] parts = path.split("/", 2);
+        String name = parts[0];
+        for (Entry entry : contents) {
+            if (entry.getName().equals(name)) {
+                if (parts.length == 1) {
+                    return entry; // Found the entry
+                } else if (entry instanceof Directory) {
+                    Directory dir = (Directory) entry;
+                    return dir.searchByPath(parts[1]); // Recurse into subdirectory
+                }
+                break;
+            }
+        }
+        return null; // Not found
     }
 }
