@@ -7,15 +7,15 @@ public abstract class Entry {
     protected long lastAccessed;
     protected String name;
 
-    public Entry(String n, Directory p){
-        parent = p;
+    public Entry(String n, Directory p) {
         name = n;
+        parent = p;
         created = System.currentTimeMillis();
-        lastAccessed = System.currentTimeMillis();
         lastUpdated = System.currentTimeMillis();
+        lastAccessed = System.currentTimeMillis();
     }
-    public boolean delete()
-    {
+
+    public boolean delete() {
         if (parent == null)
             return false;
         return parent.deleteEntry(this);
@@ -24,24 +24,34 @@ public abstract class Entry {
     public abstract int size();
 
     /* Getters and setters. */
-    public long getcreationTime()
-    {
+    public long getCreationTime() {
         return created;
     }
-    public long getLastUpdatedTime()
-    {
+
+    public long getLastUpdatedTime() {
         return lastUpdated;
     }
-    public long getLastAccessedTime()
-    {
+
+    public long getLastAccessedTime() {
         return lastAccessed;
     }
-    public void changeName(String n)
-    {
+
+    public void changeName(String n) {
         name = n;
     }
-    public String getName()
-    {
+
+    public String getName() {
         return name;
     }
+
+    // Method to get the full path of the entry
+    public String getFullPath() {
+        if (parent == null) {
+            return name; // Root directory
+        } else {
+            return parent.getFullPath() + "/" + name;
+        }
+    }
 }
+
+
